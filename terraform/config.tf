@@ -7,15 +7,15 @@ locals {
   # Project Configuration (UPDATE THESE)
   # ─────────────────────────────────────────────────────────────────────────────
   project_name = "my-step-function" # Step Function name (without env suffix)
-  company_name = "vigalcontec"        # Company name for resource naming
+  company_name = "vigalcontec"      # Company name for resource naming
 
   # ─────────────────────────────────────────────────────────────────────────────
   # S3 Trigger Configuration (Optional - set enabled = false to disable)
   # ─────────────────────────────────────────────────────────────────────────────
   s3_trigger = {
-    enabled = true              # Set to false to disable S3 trigger
-    prefix  = "uploads/"        # S3 prefix to monitor
-    suffix  = ""                # File suffix filter (e.g., ".json", ".csv")
+    enabled = true       # Set to false to disable S3 trigger
+    prefix  = "uploads/" # S3 prefix to monitor
+    suffix  = ""         # File suffix filter (e.g., ".json", ".csv")
   }
 
   # ─────────────────────────────────────────────────────────────────────────────
