@@ -6,9 +6,9 @@ locals {
   # ─────────────────────────────────────────────────────────────────────────────
   # Project Configuration (UPDATE THESE)
   # ─────────────────────────────────────────────────────────────────────────────
-  project_name  = "template"          # Project name for tfstate key (e.g., template, sales, marketing)
-  function_name = "my-step-function"  # Step Function name (without env suffix)
-  company_name  = "vigalcontec"       # Company name for resource naming
+  project_name  = "template"         # Project name for tfstate key (e.g., template, sales, marketing)
+  function_name = "my-step-function" # Step Function name (without env suffix)
+  company_name  = "vigalcontec"      # Company name for resource naming
 
   # ─────────────────────────────────────────────────────────────────────────────
   # S3 Trigger Configuration (Optional - set enabled = false to disable)
