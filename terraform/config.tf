@@ -6,8 +6,9 @@ locals {
   # ─────────────────────────────────────────────────────────────────────────────
   # Project Configuration (UPDATE THESE)
   # ─────────────────────────────────────────────────────────────────────────────
-  project_name = "my-step-function" # Step Function name (without env suffix)
-  company_name = "vigalcontec"      # Company name for resource naming
+  project_name  = "template"          # Project name for tfstate key (e.g., template, sales, marketing)
+  function_name = "my-step-function"  # Step Function name (without env suffix)
+  company_name  = "vigalcontec"       # Company name for resource naming
 
   # ─────────────────────────────────────────────────────────────────────────────
   # S3 Trigger Configuration (Optional - set enabled = false to disable)
@@ -39,12 +40,13 @@ locals {
   # Computed Values (DO NOT MODIFY)
   # ─────────────────────────────────────────────────────────────────────────────
   account_id   = data.aws_caller_identity.current.account_id
-  full_name    = "${local.project_name}-${var.environment}"
+  full_name    = "${local.function_name}-${var.environment}"
   state_bucket = "tfstate-${local.company_name}-${var.environment}-${local.account_id}"
 
   # Common tags applied to all resources
   common_tags = {
     Project     = local.project_name
+    Function    = local.function_name
     Environment = var.environment
     ManagedBy   = "terraform"
   }

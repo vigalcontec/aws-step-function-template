@@ -167,15 +167,17 @@ jobs:
         id: config
         run: |
           PROJECT_NAME=$(grep 'project_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          FUNCTION_NAME=$(grep 'function_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
           COMPANY_NAME=$(grep 'company_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
           echo "project_name=${PROJECT_NAME}" >> $GITHUB_OUTPUT
+          echo "function_name=${FUNCTION_NAME}" >> $GITHUB_OUTPUT
           echo "company_name=${COMPANY_NAME}" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
         run: |
           terraform init -reconfigure \
             -backend-config="bucket=tfstate-${{ steps.config.outputs.company_name }}-${{ env.ENV }}-${{ steps.aws.outputs.account_id }}" \
-            -backend-config="key=stepfunction/${{ steps.config.outputs.project_name }}/terraform.tfstate" \
+            -backend-config="key=${{ steps.config.outputs.project_name }}/stepfunction/${{ steps.config.outputs.function_name }}/terraform.tfstate" \
             -backend-config="region=${{ env.AWS_REGION }}" \
             -backend-config="encrypt=true"
         working-directory: ./terraform
@@ -193,7 +195,8 @@ jobs:
       - name: Summary
         run: |
           echo "### ✅ Step Function Deployed" >> $GITHUB_STEP_SUMMARY
-          echo "- **State Machine:** ${{ steps.config.outputs.project_name }}-${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Project:** ${{ steps.config.outputs.project_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **State Machine:** ${{ steps.config.outputs.function_name }}-${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Environment:** ${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -233,15 +236,17 @@ jobs:
         id: config
         run: |
           PROJECT_NAME=$(grep 'project_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          FUNCTION_NAME=$(grep 'function_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
           COMPANY_NAME=$(grep 'company_name\s*=' terraform/config.tf | head -1 | sed 's/.*"\(.*\)".*/\1/')
           echo "project_name=${PROJECT_NAME}" >> $GITHUB_OUTPUT
+          echo "function_name=${FUNCTION_NAME}" >> $GITHUB_OUTPUT
           echo "company_name=${COMPANY_NAME}" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
         run: |
           terraform init -reconfigure \
             -backend-config="bucket=tfstate-${{ steps.config.outputs.company_name }}-${{ env.ENV }}-${{ steps.aws.outputs.account_id }}" \
-            -backend-config="key=stepfunction/${{ steps.config.outputs.project_name }}/terraform.tfstate" \
+            -backend-config="key=${{ steps.config.outputs.project_name }}/stepfunction/${{ steps.config.outputs.function_name }}/terraform.tfstate" \
             -backend-config="region=${{ env.AWS_REGION }}" \
             -backend-config="encrypt=true"
         working-directory: ./terraform
@@ -255,5 +260,6 @@ jobs:
       - name: Summary
         run: |
           echo "### 🗑️ Infrastructure Destroyed" >> $GITHUB_STEP_SUMMARY
+          echo "- **Project:** ${{ steps.config.outputs.project_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **State Machine:** ${{ steps.config.outputs.function_name }}-${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Environment:** ${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **State Machine:** ${{ steps.config.outputs.project_name }}-${{ env.ENV }}" >> $GITHUB_STEP_SUMMARY
