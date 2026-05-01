@@ -8,7 +8,7 @@
 # Step Function ARN
 # ─────────────────────────────────────────────────────────────────────────────
 resource "aws_ssm_parameter" "state_machine_arn" {
-  name        = "/${var.environment}/stepfunction/${local.function_name}/state_machine_arn"
+  name        = "/${var.environment}/${local.project_name}/stepfunction/${local.function_name}/state_machine_arn"
   description = "Step Function state machine ARN for ${local.full_name}"
   type        = "String"
   value       = aws_sfn_state_machine.main.arn
@@ -20,7 +20,7 @@ resource "aws_ssm_parameter" "state_machine_arn" {
 # Step Function Name
 # ─────────────────────────────────────────────────────────────────────────────
 resource "aws_ssm_parameter" "state_machine_name" {
-  name        = "/${var.environment}/stepfunction/${local.function_name}/state_machine_name"
+  name        = "/${var.environment}/${local.project_name}/stepfunction/${local.function_name}/state_machine_name"
   description = "Step Function state machine name for ${local.full_name}"
   type        = "String"
   value       = aws_sfn_state_machine.main.name
@@ -32,7 +32,7 @@ resource "aws_ssm_parameter" "state_machine_name" {
 # Step Function Role ARN (for cross-account or service integrations)
 # ─────────────────────────────────────────────────────────────────────────────
 resource "aws_ssm_parameter" "role_arn" {
-  name        = "/${var.environment}/stepfunction/${local.function_name}/role_arn"
+  name        = "/${var.environment}/${local.project_name}/stepfunction/${local.function_name}/role_arn"
   description = "Step Function execution role ARN for ${local.full_name}"
   type        = "String"
   value       = aws_iam_role.step_function.arn
